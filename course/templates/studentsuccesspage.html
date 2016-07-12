@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+     {% load staticfiles %}
+    <link rel="shortcut icon" href="{% static 'images/title.ico' %}" />
+    <title>Home</title>
+     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/angular.min.js' %}"></script>
+    <style>
+        #topdiv{
+            background-color: #223b4f;
+            color:white;
+            margin-top: 0%;
+            position: relative;
+        }
+        #heading{
+            background-color: #223b4f;
+            padding: 2%;
+            margin-left: 0%;
+            float: left;
+        }
+        #userdetails{
+            background-color: #223b4f;
+            width: 30%;
+            padding: 2%;
+            float: right;
+            margin-right: 0%;
+        }
+        #coursecontainer{
+            color: white;
+            margin-top: 10%;
+            position: absolute;
+        }
+        body{
+            background-color: #223b4f;
+        }
+        #tableborder th,#tableborder td{
+            border: none;
+        }
+    </style>
+</head>
+<body  oncontextmenu="return false">
+<div id="topdiv" >
+    <div id="heading"  >
+        <h1>Course Box</h1>
+    </div>
+    <div id="userdetails" >
+        <div  align="right">
+            <h4>{{ role }}</h4>
+            </div>
+        <div  align="right">
+            <a href="/logoutuser/" style="background-color: #47c67e;color: white"><h5 class="btn btn-success" style="background-color: #47c67e;padding:4px;width: 50%" align="center">Logout</h5></a>
+            </div>
+        </div>
+</div>
+<div id="coursecontainer">
+    <script>
+        app=angular.module("myapp",[]);
+        app.config(['$httpProvider', function($httpProvider) {
+            $httpProvider.defaults.headers.common['X-CSRFToken'] = '{{ csrf_token|escapejs }}';
+        }]);
+        app.controller("student",function ($scope,$http) {
+            $scope.CourseTable=true;
+            $scope.AddCourseView=false;
+            $scope.CourseView=false;
+            $http.get("/mycourses/").then(function (response) {
+                $scope.CourseData=response.data;
+                $scope.heading="Your Courses";
+                $scope.buttonheading="viewdetails";
+                var x=$scope.CourseData.length;
+                if(x==0)
+                {
+                    $scope.CourseTable_table=false;
+                    $scope.CourseTable_heading=true;
+                    $scope.CourseTable_viewallbutton=true;
+                    $scope.CourseTable_backbutton=false;
+                }else{
+                     $scope.CourseTable_table=true;
+                    $scope.CourseTable_heading=false;
+                    $scope.CourseTable_viewallbutton=true;
+                    $scope.CourseTable_backbutton=false;
+                }
+            });
+
+            var config = {
+                headers : {
+                    'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
+                }
+            }
+
+            $scope.ViewAllCourse=function () {
+                $scope.CourseTable=true;
+                $scope.AddCourseView=false;
+                $scope.CourseView=false;
+                $http.get("/allcourses/").then(function (response) {
+                  $scope.CourseData=response.data;
+                $scope.heading="All Courses";
+                $scope.buttonheading="addcourse";
+                var x=$scope.CourseData.length;
+                if(x==0)
+                {
+                    $scope.CourseTable_table=false;
+                    $scope.CourseTable_heading=true;
+                    $scope.CourseTable_viewallbutton=false;
+                    $scope.CourseTable_backbutton=true;
+                }else{
+                     $scope.CourseTable_table=true;
+                    $scope.CourseTable_heading=false;
+                    $scope.CourseTable_viewallbutton=false;
+                    $scope.CourseTable_backbutton=true;
+                }
+                });
+            }
+
+            $scope.GetCourseDetails=function (x,id) {
+                if(x=="viewdetails")
+                {
+                    console.log("if is executed");
+                    console.log(id);
+                    $http.get("/courses/"+id+"/").then(function (response) {
+                        $scope.DetailedCourse=response.data;
+                        $scope.CourseTable=false;
+                        $scope.AddCourseView=false;
+                        $scope.CourseView=true;
+                    });
+                    $http.get("/viewprogress/"+id+"/").then(function (response) {
+                        $scope.ProgressDetails=response.data;
+                        console.log($scope.ProgressDetails);
+                    })
+                    $http.get("/courses/"+id+"/assignments/").then(function (response) {
+                        $scope.AssignmentsList=response.data;
+                        $scope.CourseView_assignmentlist=true;
+                        $scope.CourseView_noassignments=false;
+                        $scope.CourseView_assignmentdetail=false;
+                        var datalen=$scope.AssignmentsList.length;
+                        if(datalen==0)
+                        {
+                            $scope.CourseView_noassignments=true;
+                        }
+                    })
+                }else if(x=="addcourse")
+                {
+                    console.log("else is executed");
+                    $http.get("/courses/"+id+"/").then(function (response) {
+                        $scope.DetailedCourse=response.data;
+                        $scope.CourseTable=false;
+                        $scope.AddCourseView=true;
+                        $scope.CourseView=false;
+                    });
+                    $http.get("/getteacher/"+id+"/").then(function (response) {
+                       $scope.TeacherInfo=response.data;
+                        $scope.CourseAddedMessage=false;
+                    });
+                }
+            }
+
+            $scope.BackToMyCourse=function () {
+                $scope.CourseTable=true;
+                $scope.AddCourseView=false;
+                $scope.CourseView=false;
+                $http.get("/mycourses/").then(function (response) {
+                  $scope.CourseData=response.data;
+                $scope.heading="Your Courses";
+                $scope.buttonheading="viewdetails";
+                var x=$scope.CourseData.length;
+                if(x==0)
+                {
+                    $scope.CourseTable_table=false;
+                    $scope.CourseTable_heading=true;
+                    $scope.CourseTable_viewallbutton=true;
+                    $scope.CourseTable_backbutton=false;
+                }else{
+                     $scope.CourseTable_table=true;
+                    $scope.CourseTable_heading=false;
+                    $scope.CourseTable_viewallbutton=true;
+                    $scope.CourseTable_backbutton=false;
+                }
+                });
+            }
+
+            $scope.GoBackToAllCourses=function () {
+                $scope.CourseTable=true;
+                $scope.AddCourseView=false;
+            }
+
+            $scope.AddCoursetoProfile=function (x) {
+                $scope.CourseAddedMessage=true;
+                console.log("profiel"+x);
+                $http({
+                    method:'POST',
+                    url:'/mycourses/',
+                    data:{"courseid":x}
+                }).then(function (response) {
+                    $scope.CourseData=response.data;
+                    $scope.heading="Your Courses";
+                    $scope.buttonheading="viewdetails";
+                    var x=$scope.CourseData.length;
+                    if(x==0)
+                    {
+                        $scope.CourseTable_table=false;
+                        $scope.CourseTable_heading=true;
+                        $scope.CourseTable_viewallbutton=true;
+                        $scope.CourseTable_backbutton=false;
+                    }else{
+                         $scope.CourseTable_table=true;
+                        $scope.CourseTable_heading=false;
+                        $scope.CourseTable_viewallbutton=true;
+                        $scope.CourseTable_backbutton=false;
+                    }
+                });
+            }
+            
+            $scope.UnEnrollFromCourse=function (x) {
+                $http({
+                    method:'DELETE',
+                    url:"/unenroll/"+x+"/"
+                }).then(function (response) {
+                   $scope.BackToMyCourse();
+                });
+
+            }
+
+            $scope.AssignmentDetailedView=function (courseid,assignmentid) {
+                $http.get("/courses/"+courseid+"/assignments/"+assignmentid+"/").then(function (response) {
+                    $scope.DetailedAssignment=response.data;
+                    $scope.CourseView_assignmentlist=false;
+                    $scope.CourseView_assignmentdetail=true;
+                    $scope.CourseView_submissionform=false;
+                    $scope.CourseView_viewsubmittedform=false;
+                    $scope.CourseView_assignmentdetail_subbtn=true;
+                    $scope.CourseView_assignmentdetail_viewbtn=false;
+                    $http.get("/submission/"+assignmentid+"/").then(function (response) {
+                        $scope.CourseView_assignmentdetail_subbtn=false;
+                        $scope.CourseView_assignmentdetail_viewbtn=true;
+                    })
+                })
+            }
+
+            $scope.GoBackToAssignmentsList=function () {
+                $scope.CourseView_assignmentlist=true;
+                $scope.CourseView_assignmentdetail=false;
+                $scope.CourseView_submissionform=false;
+                $scope.CourseView_viewsubmittedform=false;
+            }
+
+            $scope.ShowSubmissionForm=function (x) {
+                $scope.CourseView_assignmentlist=false;
+                $scope.CourseView_assignmentdetail=false;
+                $scope.CourseView_submissionform=true;
+                $scope.CourseView_viewsubmittedform=false;
+            }
+
+            $scope.ViewSubmittedForm=function(x){
+                $scope.id=0;
+                $http.get("/submission/"+x+"/").then(function (response) {
+                    $scope.SubmittedData=response.data;
+                    console.log($scope.SubmittedData.id);
+                    $scope.id=$scope.SubmittedData.id;
+                    $scope.CourseView_assignmentlist=false;
+                    $scope.CourseView_assignmentdetail=false;
+                    $scope.CourseView_submissionform=false;
+                    $scope.CourseView_viewsubmittedform=true;
+                    $scope.showgrade=false;
+                    $http.get("/getgrade/"+$scope.id+"/").then(function mySucces(response) {
+                        $scope.DetailedGrade=response.data;
+                        $scope.showgrade=true;
+                     },function myError(response) {
+                        console.log(response.data);
+                    });
+                });
+
+            }
+
+            $scope.ConvertDatetoMMDDYYYY=function (date) {
+            if (date==null) {
+                return;
+            }
+            var day=date.getDate();
+            var month=date.getMonth()+1;
+            var year=date.getFullYear();
+            if(day<10) {
+                day='0'+day;
+            }
+            if(month<10) {
+                month='0'+month;
+            }
+            return year+"-"+month+"-"+day;
+           }
+
+            $scope.SubmitSubmissionForm=function (assignmentid) {
+                var content=$scope.Submissionform_content;
+                if(content==null)
+                {
+                    return;
+                }
+                var date=$scope.ConvertDatetoMMDDYYYY(new Date());
+                $http({
+                    method:'POST',
+                    url:'/submission/0/',
+                    data:{"assignmentid":assignmentid,"submissiondate":date,"content":content}
+                }).then(function (response) {
+                    $scope.Submissionform_content=null;
+                    $scope.AssignmentDetailedView($scope.DetailedCourse.id,assignmentid);
+                });
+            }
+        });
+    </script>
+    {% verbatim %}
+    <div ng-app="myapp" ng-controller="student">
+        <div ng-show="CourseTable" class="container">
+            <table class="table " id="tableborder" >
+            <tr>
+                <td colspan="3" align="center"><h2>{{ heading }}</h2></td>
+                <td align="center" style="padding: 1%"><a ng-click="ViewAllCourse()"><button class="btn btn-primary" ng-show="CourseTable_viewallbutton">View All Courses</button></a></td>
+                <td align="center" style="padding: 1%"><a ng-click="BackToMyCourse()"><button class="btn btn-success" ng-show="CourseTable_backbutton">Back</button></a></td>
+            </tr>
+            <tr ng-show="CourseTable_table">
+                <th>Course Name</th>
+                <th>StartDate</th>
+                <th>End Date</th>
+                <th>NoofHours / Week</th>
+                <th></th>
+            </tr>
+            <tr ng-show="CourseTable_heading">
+                <td><h4 > No Courses to Show</h4></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr ng-repeat="x in CourseData">
+                <td>{{ x.coursename }}</td>
+                <td>{{ x.startdate }}</td>
+                <td>{{ x.enddate }}</td>
+                <td>{{ x.requiredhours }}</td>
+                <td><h5 class="btn btn-primary" style="background-color: #5e6ea0" ng-click="GetCourseDetails(buttonheading,x.id)">View Details</h5></td>
+            </tr>
+        </table>
+    </div>
+        <div ng-show="AddCourseView" class="container">
+            <div style="width: 60%;padding-left: 5%;padding-top: 5%;float: left">
+            <table class="table" id="tableborder">
+                <tr>
+                    <td><h2>Course Name : {{ DetailedCourse.coursename }}</h2></td>
+                </tr>
+                <tr>
+                    <td><h4>Start Date : {{ DetailedCourse.startdate }}</h4></td>
+                </tr>
+                <tr>
+                    <td><h4>End Date : {{ DetailedCourse.enddate }}</h4></td>
+                </tr>
+                <tr>
+                    <td><h4>Required Hours / Week : {{ DetailedCourse.requiredhours }}</h4></td>
+                </tr>
+                <tr>
+                    <td><h4>Description:</h4></td>
+                </tr>
+                <tr>
+                    <td><textarea disabled class="form-control" cols="50" rows="5" style="background-color: #223b4f;color: white;resize: none">{{ DetailedCourse.description }}</textarea></td>
+                </tr>
+                <tr>
+                    <td>
+                        <button  ng-click="AddCoursetoProfile(DetailedCourse.id)" class="btn btn-primary">Enroll to Course</button>
+                        <button  ng-click="GoBackToAllCourses()" class="btn btn-success" style="width: 100px">Back</button>
+                    </td>
+                </tr>
+            </table>
+                </div>
+            <div style="width: 40%;float: right;padding-left: 10%;padding-top: 8%">
+                <h3 align="center">Instructor Details</h3><br/>
+                <h4>Name : {{ TeacherInfo.fullname }}</h4>
+                <h4>Qualification : {{ TeacherInfo.qualification }}</h4>
+                <h4>Company / University : {{ TeacherInfo.company }}</h4>
+                <h4>Experience : {{ TeacherInfo.experience }}</h4>
+                <h4>Country (years) : {{ TeacherInfo.country }}</h4>
+                <br/><br/><br/>
+                <div ng-show="CourseAddedMessage" ng-click="BackToMyCourse()"  class="btn btn-primary" style="width: 300px;height: 70px;background-color: #2e6da4">
+                <h4 >
+                    Course Added, Go Back to View
+                </h4>
+                    <h5><u>Click here</u></h5>
+                    </div>
+            </div>
+        </div>
+        <div ng-show="CourseView" class="container">
+            <div style="width: 30%;float: left">
+                <h1>{{ DetailedCourse.coursename }}</h1>
+                <h5>Start Date : {{ DetailedCourse.startdate }}</h5>
+                <h5>End Date : {{ DetailedCourse.enddate }}</h5>
+                <h5>Required Hours/Week : {{ DetailedCourse.requiredhours }}</h5>
+                <h4>Progress : {{ ProgressDetails.progress }} % </h4>
+                <div class="progress" style="width: 200px">
+                    <div class="progress-bar" role="progressbar" style="width: {{ ProgressDetails.progress }}%;color: #9595ff"></div>
+                </div>
+                <br/>
+                <button class="btn btn-success" style="width:100px;background-color: #5cb85c " ng-click="BackToMyCourse()"><h4>HOME</h4></button><br/><br/>
+                <button class="btn btn-primary" style="width:100px "  ng-click="UnEnrollFromCourse(DetailedCourse.id)">UnEnroll</button><br/><br/>
+            </div>
+            <div style="float: right;width: 70%;padding-left: 10%;padding-top: 5%" ng-show="CourseView_assignmentlist">
+                <table class="table" id="tableborder">
+                    <tr>
+                        <td colspan="2"><h1>Assignments</h1></td>
+                    </tr>
+                    <tr ng-show="CourseView_noassignments">
+                        <td><h2>No Assignments</h2></td>
+                        <td></td>
+                    </tr>
+                    <tr ng-repeat="x in AssignmentsList">
+                        <td><h3>{{ x.heading }}</h3></td>
+                        <td><h3 class="btn btn-primary" ng-click="AssignmentDetailedView(DetailedCourse.id,x.id)">View</h3></td>
+                    </tr>
+                </table>
+            </div>
+            <div style="float: right;width: 70%;padding-left: 10%;padding-top: 5%" ng-show="CourseView_assignmentdetail">
+                <h2>Assignment Details</h2>
+                <h4>Heading : {{ DetailedAssignment.heading }}</h4>
+                <h4>Due Date : {{ DetailedAssignment.duedate }}</h4>
+                <h4>Contents</h4>
+                <textarea disabled class="form-control" rows="8" cols="50" style="resize: none">{{ DetailedAssignment.content }}</textarea>
+                <br/>
+                <button class="btn btn-primary" ng-click="ShowSubmissionForm(DetailedAssignment.id)" ng-show="CourseView_assignmentdetail_subbtn">Submit Assignment</button>
+                <button class="btn btn-warning" ng-click="ViewSubmittedForm(DetailedAssignment.id)" ng-show="CourseView_assignmentdetail_viewbtn">View Assignment</button>
+                &nbsp
+                <button class="btn btn-success" style="width: 100px" ng-click="GoBackToAssignmentsList()">Back</button>
+            </div>
+            <div style="float: right;width: 70%;padding-left: 10%;padding-top: 5%" ng-show="CourseView_submissionform">
+                <h2>Assignment Submission Form</h2>
+                <form>
+                <h4>Your Content</h4>
+                    <h6 style="color: crimson">Only One Submission allowed</h6>
+                <textarea class="form-control" rows="15" cols="100" ng-model="Submissionform_content" ng-required="true" style="resize: none"></textarea><br/>
+                <input ng-click="SubmitSubmissionForm(DetailedAssignment.id)" type="submit" class="btn btn-primary" style="width: 100px" value="Submit"/>&nbsp
+                    <button class="btn btn-success" style="width: 100px" ng-click="AssignmentDetailedView(DetailedCourse.id,DetailedAssignment.id)">Back</button>
+                    </form>
+            </div>
+            <div style="float: right;width: 70%;padding-left: 10%;padding-top: 5%" ng-show="CourseView_viewsubmittedform">
+                <h2>Yours Submission</h2>
+                <h5>Submission Date : {{ SubmittedData.submissiondate }}</h5>
+                <h4 ng-show="showgrade">Grade : {{ DetailedGrade.grade }}</h4>
+                <h4>Content</h4>
+                <textarea disabled class="form-control" rows="10" cols="100" ng-required="true" style="resize: none;color: black" >{{ SubmittedData.content }}</textarea><br/>
+                <button class="btn btn-success" ng-click="AssignmentDetailedView(DetailedCourse.id,DetailedAssignment.id)">Back</button>
+            </div>
+        </div>
+    </div>
+    {% endverbatim %}
+</div>
+</body>
+</html>

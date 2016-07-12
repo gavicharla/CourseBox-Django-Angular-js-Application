@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% load staticfiles %}
+    <link rel="shortcut icon" href="{% static 'images/title.ico' %}" />
+    <title>Home</title>
+     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/angular.min.js' %}"></script>
+    <style>
+        #formclass{
+            background-color: #223b4f;
+            color: white;
+            width: 50%;
+            height: 500px;
+            padding-top: 5%;
+            padding-bottom: 5%;
+            font-weight: bold;
+            float: right;
+        }
+        #bodyclass{
+            background-color: #223b4f;
+            color: white;
+        }
+        #sometext{
+            width: 50%;
+            float: left;
+        }
+    </style>
+</head>
+<body class="container jumbotron" id="bodyclass">
+<h1 style="font-weight: bold" align="center"> Course Box</h1>
+<div>
+    <div id="sometext">
+        <h4>New</h4>
+        <h1>Platform</h1>
+        <h3>Between</h3>
+        <h1>Students </h1>
+        <h3>And </h3>
+        <h1>Teachers</h1>
+    </div>
+<div id="formclass" class="container " >
+<form method="POST" >{% csrf_token %}
+    <div class="table-responsive">
+        <h2 align="center">Teachers Form</h2>
+    <table class="table" >
+        <tr>
+            <td align="center">Full Name</td>
+            <td align="center" style="color: black;">{{ form.fullname }} </td>
+            <td>{{ form.fullname.errors }}</td>
+        </tr>
+        <tr>
+            <td align="center">Qualification</td>
+            <td align="center" style="color: black;">{{ form.qualification }}</td>
+            <td>{{ form.qualification.errors }}</td>
+        </tr>
+         <tr>
+            <td align="center">Experience</td>
+            <td align="center" style="color: black;">{{ form.experience }}</td>
+            <td>{{ form.experience.errors }}</td>
+        </tr>
+        <tr>
+            <td align="center">University</td>
+            <td align="center" style="color: black;">{{ form.university }}</td>
+            <td>{{ form.university.errors }}</td>
+        </tr>
+         <tr>
+            <td align="center">Country</td>
+            <td align="center"   style="color: black;">{{ form.country }}</td>
+            <td>{{ form.country.errors }}</td>
+        </tr>
+        <tr>
+            <td align="center">Phone Number</td>
+            <td align="center" style="color: black;">{{ form.phonenumber }}</td>
+            <td>{{ form.phonenumber.errors }}</td>
+        </tr>
+
+        <tr>
+            <td colspan="2" align="center"><input type="submit" name="Submit" value="Register" class="btn btn-primary btn-lg"></td>
+            <td></td>
+        </tr>
+    </table>
+        </div>
+</form>
+    </div>
+    </div>
+</body>
+</html>
