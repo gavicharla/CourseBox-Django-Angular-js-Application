@@ -206,7 +206,11 @@
             $scope.CourseDetailsDiv=true;
             $scope.AssignmentsTable=true;
             $scope.AssignmentsForm=false;
+            $scope.EditPostForm=false;
             $scope.AssignmentShow=false;
+            $scope.CoursePostsShow=false;
+            $scope.DetailedPostView=false;
+            $scope.AddPostForm=false;
             $scope.DetailedSubmissionShow=false;
             $scope.AssignmentsSubmissionsTable=false;
             $http.get("/courses/"+x+"/").then(function (response) {
@@ -342,11 +346,15 @@
         $scope.ShowAssignmentForm=function () {
             $scope.AssignmentsTable=false;
             $scope.AssignmentsForm=true;
+            $scope.EditPostForm=false;
             $scope.AssignmentShow=false;
+            $scope.DetailedPostView=false;
             $scope.AssignmentsEditForm=false;
             $scope.AssignmentsSubmissionsTable=false;
             $scope.DetailedSubmissionShow=false;
             $scope.AssErrorShow=false;
+            $scope.CoursePostsShow=false;
+            $scope.AddPostForm=false;
         }
 
         $scope.SubmitAssignment=function (x) {
@@ -375,9 +383,13 @@
                 }).then(function (response) {
                     $scope.AssignmentsData=response.data;
                     $scope.AssignmentsTable=true;
+                    $scope.DetailedPostView=false;
                     $scope.AssignmentsForm=false;
                     $scope.AssignmentShow=false;
+                    $scope.EditPostForm=false;
+                    $scope.AddPostForm=false;
                     $scope.AssignmentsEditForm=false;
+                    $scope.CoursePostsShow=false;
                     $scope.AssignmentsSubmissionsTable=false;
                     $scope.DetailedSubmissionShow=false;
                     $scope.AssignmentsTable_heading=true;
@@ -398,9 +410,13 @@
                     $scope.AssignmentsTable=false;
                 $scope.AssignmentsForm=false;
                 $scope.AssignmentShow=true;
+                    $scope.EditPostForm=false;
                 $scope.AssignmentsEditForm=false;
+                    $scope.AddPostForm=false;
+                    $scope.DetailedPostView=false;
                     $scope.AssignmentsSubmissionsTable=false;
                     $scope.DetailedSubmissionShow=false;
+                    $scope.CoursePostsShow=false;
                     $scope.form_heading=null;
                     $scope.form_duedate=null;
                     $scope.form_content=null;
@@ -424,9 +440,13 @@
             $scope.AssignmentsTable=true;
             $scope.AssignmentsForm=false;
             $scope.AssignmentShow=false;
+            $scope.EditPostForm=false;
             $scope.AssignmentsEditForm=false;
             $scope.AssignmentsSubmissionsTable=false;
             $scope.DetailedSubmissionShow=false;
+            $scope.CoursePostsShow=false;
+            $scope.AddPostForm=false;
+            $scope.DetailedPostView=false;
         }
 
         $scope.GetAssignmentDetails=function (x) {
@@ -438,7 +458,11 @@
                 $scope.DetailedAssignment=response.data;
                 $scope.AssignmentsTable=false;
                 $scope.AssignmentsForm=false;
+                $scope.EditPostForm=false;
                 $scope.AssignmentShow=true;
+                $scope.AddPostForm=false;
+                $scope.DetailedPostView=false;
+                $scope.CoursePostsShow=false;
                 $scope.AssignmentsEditForm=false;
                 $scope.AssignmentsSubmissionsTable=false;
                 $scope.DetailedSubmissionShow=false;
@@ -453,6 +477,10 @@
                 $scope.AssignmentsTable=true;
                 $scope.AssignmentsForm=false;
                 $scope.AssignmentShow=false;
+                $scope.EditPostForm=false;
+                $scope.CoursePostsShow=false;
+                $scope.DetailedPostView=false;
+                $scope.AddPostForm=false;
                 $scope.AssignmentsEditForm=false;
                 $scope.AssignmentsSubmissionsTable=false;
                 $scope.DetailedSubmissionShow=false;
@@ -474,9 +502,13 @@
         $scope.ShowEditAssignmentForm=function () {
             $scope.AssignmentsTable=false;
             $scope.AssignmentsForm=false;
+            $scope.EditPostForm=false;
             $scope.AssignmentShow=false;
+            $scope.CoursePostsShow=false;
             $scope.AssignmentsEditForm=true;
+            $scope.AddPostForm=false;
             $scope.DetailedSubmissionShow=false;
+            $scope.DetailedPostView=false;
             $scope.AssignmentsSubmissionsTable=false;
             $scope.form_heading=$scope.DetailedAssignment.heading;
             $scope.form_duedate=new Date($scope.DetailedAssignment.duedate);
@@ -487,19 +519,27 @@
                 $scope.AssignmentsTable=false;
                 $scope.AssignmentsForm=false;
                 $scope.AssignmentShow=true;
+            $scope.EditPostForm=false;
                 $scope.AssignmentsEditForm=false;
                 $scope.AssignmentsSubmissionsTable=false;
             $scope.DetailedSubmissionShow=false;
+            $scope.AddPostForm=false;
+            $scope.CoursePostsShow=false;
+            $scope.DetailedPostView=false;
 
         }
 
         $scope.ViewAssignmentSubmissions=function (assignmentid) {
             $scope.AssignmentsTable=false;
                 $scope.AssignmentsForm=false;
+            $scope.EditPostForm=false;
                 $scope.AssignmentShow=false;
                 $scope.AssignmentsEditForm=false;
+            $scope.DetailedPostView=false;
                 $scope.AssignmentsSubmissionsTable=true;
                 $scope.DetailedSubmissionShow=false;
+            $scope.CoursePostsShow=false;
+            $scope.AddPostForm=false;
                 $scope.AssignmentsSubmissionsTable_studentname=true;
                 $scope.AssignmentsSubmissionsTable_nosubmissions=false;
             $http.get("/submittedstudents/"+assignmentid+"/").then(function mySucces(response) {
@@ -518,9 +558,13 @@
                 $scope.AssignmentsTable=false;
                 $scope.AssignmentsForm=false;
                 $scope.AssignmentShow=true;
+            $scope.DetailedPostView=false;
+            $scope.EditPostForm=false;
                 $scope.AssignmentsEditForm=false;
                 $scope.AssignmentsSubmissionsTable=false;
                 $scope.DetailedSubmissionShow=false;
+            $scope.CoursePostsShow=false;
+            $scope.AddPostForm=false;
         }
         
         
@@ -531,6 +575,10 @@
                 $scope.AssignmentsForm=false;
                 $scope.AssignmentShow=false;
                 $scope.AssignmentsEditForm=false;
+                $scope.CoursePostsShow=false;
+                $scope.EditPostForm=false;
+                $scope.AddPostForm=false;
+                $scope.DetailedPostView=false;
                 $scope.AssignmentsSubmissionsTable=false;
                 $scope.DetailedSubmissionShow=true;
                 $scope.DetailedSubmissionShow_succesbtn=false;
@@ -549,10 +597,14 @@
                 $scope.AssignmentsTable=false;
                 $scope.AssignmentsForm=false;
                 $scope.AssignmentShow=false;
+            $scope.EditPostForm=false;
                 $scope.AssignmentsEditForm=false;
                 $scope.AssignmentsSubmissionsTable=true;
                 $scope.DetailedSubmissionShow=false;
                 $scope.CourseStudentList=false;
+            $scope.AddPostForm=false;
+            $scope.CoursePostsShow=false;
+            $scope.DetailedPostView=false;
         }
 
         $scope.SubmitGradetoServer=function (studentid,submissionid) {
@@ -578,10 +630,14 @@
                 $scope.AssignmentsTable=false;
                 $scope.AssignmentsForm=false;
                 $scope.AssignmentShow=false;
+                $scope.EditPostForm=false;
                 $scope.AssignmentsEditForm=false;
+                $scope.AddPostForm=false;
+                $scope.CoursePostsShow=false;
                 $scope.AssignmentsSubmissionsTable=false;
                 $scope.DetailedSubmissionShow=false;
                 $scope.CourseStudentList=true;
+                $scope.DetailedPostView=false;
                 $scope.CourseStudentList_nostudents=false;
                 $scope.CourseStudentList_heading=true;
                 var datalength=$scope.StudentsList.length;
@@ -597,10 +653,156 @@
             $scope.AssignmentsTable=true;
                 $scope.AssignmentsForm=false;
                 $scope.AssignmentShow=false;
+            $scope.EditPostForm=false;
                 $scope.AssignmentsEditForm=false;
                 $scope.AssignmentsSubmissionsTable=false;
                 $scope.DetailedSubmissionShow=false;
                 $scope.CourseStudentList=false;
+                $scope.CoursePostsShow=false;
+            $scope.AddPostForm=false;
+            $scope.DetailedPostView=false;
+        }
+        
+        $scope.Course_ViewPosts=function (x) {
+            console.log("View Posts is clicked");
+            $scope.AssignmentsTable=false;
+                $scope.AssignmentsForm=false;
+                $scope.AssignmentShow=false;
+            $scope.EditPostForm=false;
+                $scope.AssignmentsEditForm=false;
+            $scope.AddPostForm=false;
+            $scope.DetailedPostView=false;
+                $scope.AssignmentsSubmissionsTable=false;
+                $scope.DetailedSubmissionShow=false;
+                $scope.CourseStudentList=false;
+                $scope.CoursePostsShow=true;
+            $http.get("/getallposts/"+x+"/").then(function (response) {
+               $scope.Postlist=response.data;
+                var datalen=$scope.Postlist.length;
+                $scope.CoursePostShow_noposts=false;
+                $scope.CoursePostShow_post=true;
+                if(datalen==0)
+                {
+                    $scope.CoursePostShow_noposts=true;
+                    $scope.CoursePostShow_post=false;
+                }
+            });
+        }
+
+        $scope.Course_ViewAssignments=function () {
+            console.log("Course View Assignments is clicked");
+            $scope.AssignmentsTable=true;
+                $scope.AssignmentsForm=false;
+                $scope.AssignmentShow=false;
+                $scope.EditPostForm=false;
+                $scope.AssignmentsEditForm=false;
+                $scope.AssignmentsSubmissionsTable=false;
+                $scope.DetailedSubmissionShow=false;
+                $scope.CourseStudentList=false;
+                $scope.CoursePostsShow=false;
+                $scope.AddPostForm=false;
+                $scope.DetailedPostView=false;
+        }
+
+        $scope.ShowPostAddForm=function () {
+            $scope.Course_form_content=null;
+                    $scope.Course_form_heading=null;
+            $scope.AssignmentsTable=false;
+                $scope.AssignmentsForm=false;
+                $scope.AssignmentShow=false;
+                $scope.EditPostForm=false;
+                $scope.AssignmentsEditForm=false;
+                $scope.AssignmentsSubmissionsTable=false;
+                $scope.DetailedSubmissionShow=false;
+                $scope.CourseStudentList=false;
+                $scope.CoursePostsShow=false;
+                $scope.AddPostForm=true;
+                $scope.DetailedPostView=false;
+        }
+
+        $scope.AddPost=function (x) {
+            var heading=$scope.Course_form_heading;
+            var content=$scope.Course_form_content;
+            if(heading==null||content==null)
+            {
+                return;
+            }else{
+                $http({
+                    method:"POST",
+                    url:"/getallposts/"+x+"/",
+                    data:{"heading":heading,"content":content}
+                }).then(function (response) {
+                   $scope.Course_ViewPosts(x);
+                    $scope.Course_form_heading=null;
+                    $scope.Course_form_content=null;
+                });
+            }
+        }
+
+        $scope.ViewDetailedPost=function (x) {
+            $http.get("getpost/"+x+"/").then(function (response) {
+                $scope.DetailedPost=response.data;
+                $scope.AssignmentsTable=false;
+                $scope.AssignmentsForm=false;
+                $scope.AssignmentShow=false;
+                $scope.AssignmentsEditForm=false;
+                $scope.AssignmentsSubmissionsTable=false;
+                $scope.DetailedSubmissionShow=false;
+                $scope.CourseStudentList=false;
+                $scope.CoursePostsShow=false;
+                $scope.AddPostForm=false;
+                $scope.DetailedPostView=true;
+                $scope.EditPostForm=false;
+            })
+        }
+
+        $scope.EditCoursePost=function (x) {
+            $http.get("getpost/"+x+"/").then(function (response) {
+                $scope.DetailedEditPost=response.data;
+                $scope.AssignmentsTable=false;
+                $scope.AssignmentsForm=false;
+                $scope.AssignmentShow=false;
+                $scope.AssignmentsEditForm=false;
+                $scope.AssignmentsSubmissionsTable=false;
+                $scope.DetailedSubmissionShow=false;
+                $scope.CourseStudentList=false;
+                $scope.CoursePostsShow=false;
+                $scope.AddPostForm=false;
+                $scope.DetailedPostView=false;
+                $scope.EditPostForm=true;
+                $scope.Course_form_content=$scope.DetailedEditPost.content;
+                $scope.Course_form_heading=$scope.DetailedEditPost.heading;
+            })
+        }
+
+        $scope.EditPosttoServer=function (x) {
+            var content=$scope.Course_form_content;
+            var heading=$scope.Course_form_heading;
+            if(content==null||heading==null)
+            {
+                return;
+            }
+            else{
+                $http({
+                    method:"PUT",
+                    url:"getpost/"+x+"/",
+                    data:{"heading":heading,"content":content,"courseid":$scope.DetailedEditPost.courseid}
+                }).then(function (response) {
+                    $scope.x=response.data;
+                    $scope.Course_form_content=null;
+                    $scope.Course_form_heading=null;
+                    $scope.ViewDetailedPost($scope.x.id);
+                });
+            }
+        }
+
+        $scope.DeleteCoursePost=function (x,y) {
+            $http({
+                method:"DELETE",
+                url:"getpost/"+x+"/"
+            }).then(function (response) {
+                $scope.Course_ViewPosts(y);
+            })
         }
     });
 </script>
@@ -679,6 +881,10 @@
             </div>
         <div id="CourseAssignmentsdivtag">
             <table class="table" id="tableborder" ng-show="AssignmentsTable">
+                <tr>
+                    <td><h3>Assignments</h3></td>
+                    <td align="right"><h4  class="btn btn-primary" style="background-color: #baabd2" ng-click="Course_ViewPosts(course.id)">View Posts</h4></td>
+                </tr>
                 <tr ng-show="AssignmentsTable_heading">
                     <td colspan="1"><h2><strong>Heading</strong></h2></td>
                     <td><h2><strong>Duedate</strong></h2></td>
@@ -778,7 +984,7 @@
                 <button class="btn btn-primary" style="background-color: #9595ff;width: 200px" ng-show="DetailedSubmissionShow_succesbtn" ng-click="GoBackFromDetailedSubmissionToSubmissions()">
                     <h4>Grade Submitted</h4><h6><u>click here to go back</u></h6></button>
             </form>
-            <table class="table" id="tableborder" ng-show="CourseStudentList">
+            <table class="table" id="tableborder" ng-coushow="CourseStudentList">
                 <tr ng-show="CourseStudentList_heading">
                     <td colspan="3"><h2>List of Students</h2></td>
                     <td><button ng-click="GoBackFomStudentsList()" class="btn btn-success">Back</button></td>
@@ -800,6 +1006,60 @@
                     <td><h4>{{ x.country }}</h4></td>
                 </tr>
             </table>
+            <table class="table" id="tableborder" ng-show="CoursePostsShow">
+                <tr>
+                    <td><h2>Posts</h2></td>
+                    <td><h4 align="right" class="btn btn-primary" style="background-color: #d1a2d2" ng-click="Course_ViewAssignments()">View Assignments</h4></td>
+                </tr>
+                <tr ng-show="CoursePostShow_noposts">
+                    <td><h3>No Posts</h3></td>
+                    <td><h4 align="right" class="btn btn-primary" ng-click="ShowPostAddForm()">Add New Post</h4></td>
+                </tr>
+                <tr ng-show="CoursePostShow_post">
+                    <td><h3>Posts List</h3></td>
+                    <td><h4 align="right" class="btn btn-primary" ng-click="ShowPostAddForm()">Add New Post</h4></td>
+                </tr>
+                <tr ng-repeat="x in Postlist">
+                    <td><h4>{{ x.heading }}</h4></td>
+                    <td align="right"><h4 class="btn btn-primary" ng-click="ViewDetailedPost(x.id)">View</h4></td>
+                </tr>
+            </table>
+            <form ng-show="AddPostForm" role="form">
+                <h2>Add Post Form</h2>
+                <div class="form-group">
+                    <label for="hdng"><h4>Heading</h4></label>
+                    <input type="text" class="form-control"  style="color: black" ng-required="true" ng-model="Course_form_heading" id="hdng">
+                </div>
+                <div class="form-group">
+                    <label for="ta"><h4>Heading</h4></label>
+                    <textarea id="ta" class="form-control" ng-required="true" ng-model="Course_form_content" style="color: black;resize: none" rows="10" cols="100" ></textarea>
+                </div>
+                <input type="submit" class="btn btn-primary" ng-click="AddPost(course.id)" value="Add Post">
+                <button class="btn btn-success" ng-click="Course_ViewPosts(course.id)">Back</button>
+            </form>
+            <div ng-show="DetailedPostView">
+                <h2>Post</h2>
+                <h4>Heading : {{ DetailedPost.heading }}</h4>
+                <h4>Content</h4><br/>
+                <textarea disabled class="form-control" style="color: black;resize: none" rows="10" cols="100">{{ DetailedPost.content }}</textarea>
+                <br/>
+                <button ng-click="EditCoursePost(DetailedPost.id)" style="width: 130px;" class="btn btn-primary">Edit Post</button>
+                <button ng-click="DeleteCoursePost(DetailedPost.id,DetailedPost.courseid)" style="width: 130px;" class="btn btn-danger">Delete Post</button>
+                <button ng-click="Course_ViewPosts(DetailedPost.courseid)" style="width: 130px;" class="btn btn-success"> Back</button>
+            </div>
+            <form ng-show="EditPostForm" role="form">
+                <h2>Add Post Form</h2>
+                <div class="form-group">
+                    <label for="hdng"><h4>Heading</h4></label>
+                    <input type="text" class="form-control"  style="color: black"  ng-required="true" ng-model="Course_form_heading" id="hdng">
+                </div>
+                <div class="form-group">
+                    <label for="ta"><h4>Heading</h4></label>
+                    <textarea id="ta" class="form-control" ng-required="true" ng-model="Course_form_content" style="color: black;resize: none" rows="10" cols="100" ></textarea>
+                </div>
+                <input type="submit" class="btn btn-primary" ng-click="EditPosttoServer(DetailedEditPost.id)" value="Add Post">
+                <button class="btn btn-success" ng-click="Course_ViewPosts(DetailedEditPost.courseid)">Back</button>
+            </form>
         </div>
     </div>
     <div ng-show="CourseEditForm" class="container" style="padding-right: 50%;padding-left: 20%" >

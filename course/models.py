@@ -55,4 +55,7 @@ class Grades(models.Model):
     submissionid=models.ForeignKey(Submissions)
     grade=models.IntegerField()
 
-
+class Posts(models.Model):
+    courseid=models.ForeignKey(Course)
+    heading=models.CharField(max_length=64)
+    content=models.TextField()

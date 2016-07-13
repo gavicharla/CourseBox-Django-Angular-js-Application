@@ -26,8 +26,7 @@ SECRET_KEY = '!drh19$d@kluy9n3o0pkf+-x^c&#_3mqvr=wf3$_!n=!w^#q5g'
 DEBUG = True
 
 ALLOWED_HOSTS = []
-LOGIN_REDIRECT_URL='success'
-LOGIN="/"
+LOGIN_REDIRECT_URL='/'
 
 # Application definition
 
@@ -76,7 +75,7 @@ WSGI_APPLICATION = 'courseproject.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
-'''
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
@@ -93,6 +92,7 @@ DATABASES = {
         "ENGINE": "django.db.backends.postgresql_psycopg2",
     }
 }
+'''
 # Password validation
 # https://docs.djangoproject.com/en/1.9/ref/settings/#auth-password-validators
 

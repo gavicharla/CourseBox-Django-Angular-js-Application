@@ -20,12 +20,12 @@ def get_registrationform(request):
             if password1==password2:
                 User.objects.create_user(username,email,password1)
                 AccountType.objects.create(actype=accountType,owner=User.objects.get(username=username))
-                return HttpResponseRedirect("/")
+                return HttpResponseRedirect("/login")
     else:
         form=RegistrationForm()
     return render(request,'registration.html',{'form':form})
 
-@login_required(login_url='/')
+@login_required(login_url="login")
 def loginsuccess(request):
     u=AccountType.objects.get(owner=request.user)
     if u.actype=='teacher':
@@ -45,11 +45,11 @@ def loginsuccess(request):
             s=StudentsInformation.objects.get(owner=request.user)
             return render(request,"studentsuccesspage.html",{'role':s.fullname})
 
-@login_required(login_url='/')
+@login_required(login_url="login")
 def studentform_fillup(request):
     actype=AccountType.objects.get(owner=request.user).actype
     if actype=='teacher':
-        return HttpResponseRedirect("/success")
+        return HttpResponseRedirect("/")
     u=StudentsInformation.objects.filter(owner=request.user.id)
     a=u.__len__()
     if a==0 :
@@ -63,18 +63,18 @@ def studentform_fillup(request):
                 phnenumber=form.cleaned_data['phonenumber']
                 country=form.cleaned_data['country']
                 StudentsInformation.objects.create(fullname=fullname,owner=owner,qualification=qualification,university=university,phnenumber=phnenumber,country=country)
-                return HttpResponseRedirect("/success")
+                return HttpResponseRedirect("/")
         else:
             form=StudentsInformationForm()
         return render(request,'studentsinfoinput.html',{'form':form})
     else:
-        return HttpResponseRedirect("/success")
+        return HttpResponseRedirect("/")
 
-@login_required(login_url='/')
+@login_required(login_url="login")
 def teacherform_fillup(request):
     actype = AccountType.objects.get(owner=request.user).actype
     if actype == 'student':
-        return HttpResponseRedirect("/success")
+        return HttpResponseRedirect("/")
     u=TeacherInformation.objects.filter(owner=request.user)
     a=u.__len__()
     if a== 0 :
@@ -89,9 +89,9 @@ def teacherform_fillup(request):
                 country=form.cleaned_data['country']
                 experience=form.cleaned_data['experience']
                 TeacherInformation.objects.create(fullname=fullname,owner=owner,qualification=qualification,company=company,phnenumber=phnenumber,country=country,experience=experience)
-                return HttpResponseRedirect("/success")
+                return HttpResponseRedirect("/")
         else:
             form=TeacherInformationForm()
         return render(request,'teachersinfoinput.html',{'form':form})
     else:
-        return HttpResponseRedirect("/success")
+        return HttpResponseRedirect("/")

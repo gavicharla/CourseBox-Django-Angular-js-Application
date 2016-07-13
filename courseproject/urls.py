@@ -22,8 +22,8 @@ from course.views import *
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^registration$',get_registrationform,name="registration"),
-    url(r'^$',login,name="login"),
-    url(r'^success/$',loginsuccess,name="success"),
+    url(r'^login/$',login,name="login"),
+    url(r'^$',loginsuccess,name="success"),
     url(r'^studentform/$',studentform_fillup,name="studentform"),
     url(r'^teachersform/$',teacherform_fillup,name="teachersform"),
     url(r'^logoutuser/$',logout_view,name="logoutsuccess"),
@@ -42,4 +42,6 @@ urlpatterns = [
     url(r'^coursestudents/(?P<id>[0-9]+)/$',viewallstudentsincourse,name="viewallstudentsincourse"),
     url(r'^viewprogress/(?P<id>[0-9]+)/$',viewprogressofstudent,name="viewprogressofstudent"),
     url(r'^getgrade/(?P<id>[0-9]+)/$',getgradebasedonsubmissionid,name="getgrade"),
+    url(r'^getallposts/(?P<id>[0-9]+)/$',getallpostsofcourse,name="getallposts"),
+    url(r'^getpost/(?P<id>[0-9]+)/$',getpost,name="getpost")
 ]

@@ -36,3 +36,9 @@ class GradesSerializer(serializers.ModelSerializer):
     class Meta:
         model=Grades
         fields=('id','studentid','submissionid','grade')
+
+
+class PostSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=Posts
+        fields=('id','courseid','heading','content')

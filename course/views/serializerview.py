@@ -9,7 +9,7 @@ from course.serializer import *
 from course.models import *
 
 @csrf_exempt
-@login_required(login_url='/')
+@login_required(login_url="login")
 @api_view(['GET','POST'])
 def courselist(request):
     if request.method=='GET':
@@ -33,7 +33,7 @@ def courselist(request):
 
 
 @csrf_exempt
-@login_required(login_url='/')
+@login_required(login_url="login")
 @api_view(['GET','PUT','DELETE'])
 def coursedetails(request,id):
     try:
@@ -60,7 +60,7 @@ def coursedetails(request,id):
 
 
 @csrf_exempt
-@login_required(login_url='/')
+@login_required(login_url="login")
 @api_view(['GET','POST'])
 def assignmentslist(request,id):
     if request.method=='GET':
@@ -82,7 +82,7 @@ def assignmentslist(request,id):
         return Response(status=status.HTTP_404_NOT_FOUND)
 
 @csrf_exempt
-@login_required(login_url='/')
+@login_required(login_url="login")
 @api_view(['GET','PUT','DELETE'])
 def assignmentdetail(request,id,pk):
     try:
@@ -106,7 +106,7 @@ def assignmentdetail(request,id,pk):
     return Response(status=status.HTTP_404_NOT_FOUND)
 
 @csrf_exempt
-@login_required(login_url="/")
+@login_required(login_url="login")
 @api_view(['GET','POST'])
 def mycourseslist(request):
     try:
@@ -147,7 +147,7 @@ def mycourseslist(request):
     return Response(status=status.HTTP_404_NOT_FOUND)
 
 @csrf_exempt
-@login_required(login_url="/")
+@login_required(login_url="login")
 @api_view(['GET'])
 def allcourseslist(request):
     if request.method=='GET':
@@ -158,7 +158,7 @@ def allcourseslist(request):
 
 
 @csrf_exempt
-@login_required(login_url="/")
+@login_required(login_url="login")
 @api_view(['GET'])
 def teacherinfobasedoncourseid(request,id):
     try:
@@ -172,7 +172,7 @@ def teacherinfobasedoncourseid(request,id):
         return Response(ser.data)
 
 @csrf_exempt
-@login_required(login_url="/")
+@login_required(login_url="login")
 @api_view(['DELETE'])
 def unenrollcourse(request,id):
     try:
@@ -187,7 +187,7 @@ def unenrollcourse(request,id):
     return Response(status=status.HTTP_404_NOT_FOUND)
 
 @csrf_exempt
-@login_required(login_url="/")
+@login_required(login_url="login")
 @api_view(['GET','PUT','POST'])
 def assignmentsubmission(request,id):
     try:
@@ -219,7 +219,7 @@ def assignmentsubmission(request,id):
     return Response(status=status.HTTP_404_NOT_FOUND)
 
 @csrf_exempt
-@login_required(login_url="/")
+@login_required(login_url="login")
 @api_view(['GET'])
 def getsubmittedstudentnames(request,id):
     subs=Submissions.objects.filter(assignmentid=id)
@@ -235,7 +235,7 @@ def getsubmittedstudentnames(request,id):
     return Response(status=status.HTTP_404_NOT_FOUND)
 
 @csrf_exempt
-@login_required(login_url="/")
+@login_required(login_url="login")
 @api_view(['GET'])
 def getsubmissionbasedonassignmentidandstudentid(request,sid,aid):
     try:
@@ -248,7 +248,7 @@ def getsubmissionbasedonassignmentidandstudentid(request,sid,aid):
     return Response(status=status.HTTP_404_NOT_FOUND)
 
 @csrf_exempt
-@login_required(login_url="/")
+@login_required(login_url="login")
 @api_view(['POST'])
 def addgradetoserverwithstudentidandsubmissionid(request,studentid,submissionid):
     try:
@@ -276,7 +276,7 @@ def addgradetoserverwithstudentidandsubmissionid(request,studentid,submissionid)
     return Response(status=status.HTTP_404_NOT_FOUND)
 
 @csrf_exempt
-@login_required(login_url="/")
+@login_required(login_url="login")
 @api_view(['GET'])
 def viewallstudentsincourse(request,id):
     try:
@@ -293,7 +293,7 @@ def viewallstudentsincourse(request,id):
 
 
 @csrf_exempt
-@login_required(login_url="/")
+@login_required(login_url="login")
 @api_view(['GET'])
 def viewprogressofstudent(request,id):
     if request.method=='GET':
@@ -327,7 +327,7 @@ def viewprogressofstudent(request,id):
     return Response(status=status.HTTP_404_NOT_FOUND)
 
 @csrf_exempt
-@login_required(login_url="/")
+@login_required(login_url="login")
 @api_view(['GET'])
 def getgradebasedonsubmissionid(request,id):
     try:
@@ -336,3 +336,51 @@ def getgradebasedonsubmissionid(request,id):
         return Response(ser.data)
     except:
         return Response(status=status.HTTP_404_NOT_FOUND)
+
+@csrf_exempt
+@login_required(login_url="login")
+@api_view(['GET','POST'])
+def getallpostsofcourse(request,id):
+    try:
+        p=Posts.objects.filter(courseid=id)
+    except:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    if request.method=='GET':
+        ser=PostSerializer(p,many=True)
+        return Response(ser.data)
+    elif request.method=='POST':
+        data=request.data
+        id=(int)(id)
+        data['courseid']=id
+        ser=PostSerializer(data=data)
+        if ser.is_valid():
+            ser.save()
+            p = Posts.objects.filter(courseid=id)
+            ser=PostSerializer(p,many=True)
+            return Response(ser.data)
+        return Response(ser.errors,status=status.HTTP_400_BAD_REQUEST)
+    return Response(status=status.HTTP_404_NOT_FOUND)
+
+@csrf_exempt
+@login_required(login_url="login")
+@api_view(['GET','PUT','DELETE'])
+def getpost(request,id):
+    try:
+        p=Posts.objects.get(id=id)
+    except:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    if request.method=='GET':
+        ser=PostSerializer(p)
+        return Response(ser.data)
+    elif request.method=='PUT':
+        ser=PostSerializer(p,data=request.data)
+        if ser.is_valid():
+            ser.save()
+            return Response(ser.data)
+        return Response(ser.errors,status=status.HTTP_400_BAD_REQUEST)
+    elif request.method=='DELETE':
+        p.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+    return Response(status=status.HTTP_404_NOT_FOUND)
+
+

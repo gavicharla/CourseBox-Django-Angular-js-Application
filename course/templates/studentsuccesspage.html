@@ -67,6 +67,8 @@
             $scope.CourseTable=true;
             $scope.AddCourseView=false;
             $scope.CourseView=false;
+            $scope.CourseView_Detailedpost=false;
+            $scope.CourseView_viewposts=false;
             $http.get("/mycourses/").then(function (response) {
                 $scope.CourseData=response.data;
                 $scope.heading="Your Courses";
@@ -78,11 +80,13 @@
                     $scope.CourseTable_heading=true;
                     $scope.CourseTable_viewallbutton=true;
                     $scope.CourseTable_backbutton=false;
+                    $scope.CourseView_Detailedpost=false;
                 }else{
                      $scope.CourseTable_table=true;
                     $scope.CourseTable_heading=false;
                     $scope.CourseTable_viewallbutton=true;
                     $scope.CourseTable_backbutton=false;
+                    $scope.CourseView_Detailedpost=false;
                 }
             });
 
@@ -96,6 +100,7 @@
                 $scope.CourseTable=true;
                 $scope.AddCourseView=false;
                 $scope.CourseView=false;
+                $scope.CourseView_Detailedpost=false;
                 $http.get("/allcourses/").then(function (response) {
                   $scope.CourseData=response.data;
                 $scope.heading="All Courses";
@@ -107,11 +112,13 @@
                     $scope.CourseTable_heading=true;
                     $scope.CourseTable_viewallbutton=false;
                     $scope.CourseTable_backbutton=true;
+                    $scope.CourseView_viewposts=false;
                 }else{
                      $scope.CourseTable_table=true;
                     $scope.CourseTable_heading=false;
                     $scope.CourseTable_viewallbutton=false;
                     $scope.CourseTable_backbutton=true;
+                    $scope.CourseView_viewposts=false;
                 }
                 });
             }
@@ -136,6 +143,7 @@
                         $scope.CourseView_assignmentlist=true;
                         $scope.CourseView_noassignments=false;
                         $scope.CourseView_assignmentdetail=false;
+                        $scope.CourseView_Detailedpost=false;
                         var datalen=$scope.AssignmentsList.length;
                         if(datalen==0)
                         {
@@ -150,6 +158,7 @@
                         $scope.CourseTable=false;
                         $scope.AddCourseView=true;
                         $scope.CourseView=false;
+                        $scope.CourseView_Detailedpost=false;
                     });
                     $http.get("/getteacher/"+id+"/").then(function (response) {
                        $scope.TeacherInfo=response.data;
@@ -173,11 +182,15 @@
                     $scope.CourseTable_heading=true;
                     $scope.CourseTable_viewallbutton=true;
                     $scope.CourseTable_backbutton=false;
+                    $scope.CourseView_viewposts=false;
+                    $scope.CourseView_Detailedpost=false;
                 }else{
                      $scope.CourseTable_table=true;
                     $scope.CourseTable_heading=false;
                     $scope.CourseTable_viewallbutton=true;
                     $scope.CourseTable_backbutton=false;
+                    $scope.CourseView_viewposts=false;
+                    $scope.CourseView_Detailedpost=false;
                 }
                 });
             }
@@ -230,6 +243,8 @@
                     $scope.CourseView_assignmentlist=false;
                     $scope.CourseView_assignmentdetail=true;
                     $scope.CourseView_submissionform=false;
+                    $scope.CourseView_viewposts=false;
+                    $scope.CourseView_Detailedpost=false;
                     $scope.CourseView_viewsubmittedform=false;
                     $scope.CourseView_assignmentdetail_subbtn=true;
                     $scope.CourseView_assignmentdetail_viewbtn=false;
@@ -245,6 +260,8 @@
                 $scope.CourseView_assignmentdetail=false;
                 $scope.CourseView_submissionform=false;
                 $scope.CourseView_viewsubmittedform=false;
+                $scope.CourseView_viewposts=false;
+                $scope.CourseView_Detailedpost=false;
             }
 
             $scope.ShowSubmissionForm=function (x) {
@@ -252,6 +269,8 @@
                 $scope.CourseView_assignmentdetail=false;
                 $scope.CourseView_submissionform=true;
                 $scope.CourseView_viewsubmittedform=false;
+                $scope.CourseView_viewposts=false;
+                $scope.CourseView_Detailedpost=false;
             }
 
             $scope.ViewSubmittedForm=function(x){
@@ -264,6 +283,9 @@
                     $scope.CourseView_assignmentdetail=false;
                     $scope.CourseView_submissionform=false;
                     $scope.CourseView_viewsubmittedform=true;
+                    $scope.CourseView_Detailedpost=false;
+                    $scope.CourseView_viewposts=false;
+                    $scope.CourseView_viewposts=false;
                     $scope.showgrade=false;
                     $http.get("/getgrade/"+$scope.id+"/").then(function mySucces(response) {
                         $scope.DetailedGrade=response.data;
@@ -306,6 +328,38 @@
                     $scope.Submissionform_content=null;
                     $scope.AssignmentDetailedView($scope.DetailedCourse.id,assignmentid);
                 });
+            }
+
+            $scope.ViewPosts=function (x) {
+                $http.get("/getallposts/"+x+"/").then(function (response) {
+                    $scope.AllPosts=response.data;
+                    $scope.CourseView_assignmentlist=false;
+                $scope.CourseView_assignmentdetail=false;
+                $scope.CourseView_submissionform=false;
+                $scope.CourseView_viewsubmittedform=false;
+                    $scope.CourseView_Detailedpost=false;
+                    $scope.CourseView_viewposts=true;
+                    $scope.CourseView_viewposts_posts=true;
+                    $scope.CourseView_viewposts_noposts=false;
+                    var datalen=$scope.AllPosts.length;
+                    if(datalen=0)
+                    {
+                        $scope.CourseView_viewposts_posts=false;
+                    $scope.CourseView_viewposts_noposts=true;
+                    }
+                });
+            }
+
+            $scope.ViewDetailedPost=function (x) {
+                $http.get("/getpost/"+x+"/").then(function (response) {
+                    $scope.DetailedPost=response.data;
+                    $scope.CourseView_assignmentlist=false;
+                $scope.CourseView_assignmentdetail=false;
+                $scope.CourseView_submissionform=false;
+                $scope.CourseView_viewsubmittedform=false;
+                $scope.CourseView_viewposts=false;
+                $scope.CourseView_Detailedpost=true;
+                })
             }
         });
     </script>
@@ -403,7 +457,8 @@
             <div style="float: right;width: 70%;padding-left: 10%;padding-top: 5%" ng-show="CourseView_assignmentlist">
                 <table class="table" id="tableborder">
                     <tr>
-                        <td colspan="2"><h1>Assignments</h1></td>
+                        <td colspan="1"><h1>Assignments</h1></td>
+                        <td align="center"><h4 class="btn btn-primary" style="background-color: #5e6ea0" ng-click="ViewPosts(DetailedCourse.id)">View Posts</h4></td>
                     </tr>
                     <tr ng-show="CourseView_noassignments">
                         <td><h2>No Assignments</h2></td>
@@ -444,6 +499,34 @@
                 <h4>Content</h4>
                 <textarea disabled class="form-control" rows="10" cols="100" ng-required="true" style="resize: none;color: black" >{{ SubmittedData.content }}</textarea><br/>
                 <button class="btn btn-success" ng-click="AssignmentDetailedView(DetailedCourse.id,DetailedAssignment.id)">Back</button>
+            </div>
+            <div style="float: right;width: 70%;padding-left: 10%;padding-top: 5%"  ng-show="CourseView_viewposts">
+            <table id="tableborder" class="table">
+                <tr>
+                    <td colspan="1"><h1>Posts</h1></td>
+                    <td align="center"><h4 class="btn btn-primary" style="background-color: #5e6ea0" ng-click="GoBackToAssignmentsList()">View Assignments</h4></td>
+                </tr>
+                <tr ng-show="CourseView_viewposts_posts">
+                    <td><h2>Posts List</h2></td>
+                    <td></td>
+                </tr>
+                <tr ng-show="CourseView_viewposts_noposts">
+                    <td><h2>No Posts</h2></td>
+                    <td></td>
+                </tr>
+                <tr ng-repeat="x in AllPosts">
+                    <td><h4>{{ x.heading }}</h4></td>
+                    <td align="right"><h4 class="btn btn-primary" ng-click="ViewDetailedPost(x.id)">View</h4></td>
+                </tr>
+            </table>
+                </div>
+            <div style="float: right;width: 70%;padding-left: 10%;padding-top: 5%"  ng-show="CourseView_Detailedpost">
+                <h1>POST</h1>
+                <h3>Heading : {{ DetailedPost.heading }}</h3>
+                <h4>Content</h4>
+                <textarea class="form-control" disabled style="color: #0f0f0f;resize: none" rows="10" cols="100">{{ DetailedPost.content }}</textarea>
+                <br>
+                <h4 class="btn btn-success" ng-click="ViewPosts(DetailedPost.courseid)">Back</h4>
             </div>
         </div>
     </div>
