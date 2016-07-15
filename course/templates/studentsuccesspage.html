@@ -69,7 +69,7 @@
             $scope.CourseView=false;
             $scope.CourseView_Detailedpost=false;
             $scope.CourseView_viewposts=false;
-            $http.get("/mycourses/").then(function (response) {
+            $http.get("/mycourses/").then(function mySucces(response) {
                 $scope.CourseData=response.data;
                 $scope.heading="Your Courses";
                 $scope.buttonheading="viewdetails";
@@ -88,6 +88,7 @@
                     $scope.CourseTable_backbutton=false;
                     $scope.CourseView_Detailedpost=false;
                 }
+                console.log("mahendar"+response.data+"\nurl+"+response.url);
             });
 
             var config = {
@@ -101,7 +102,7 @@
                 $scope.AddCourseView=false;
                 $scope.CourseView=false;
                 $scope.CourseView_Detailedpost=false;
-                $http.get("/allcourses/").then(function (response) {
+                $http.get("/allcourses/").then(function mySucces(response) {
                   $scope.CourseData=response.data;
                 $scope.heading="All Courses";
                 $scope.buttonheading="addcourse";
@@ -120,7 +121,7 @@
                     $scope.CourseTable_backbutton=true;
                     $scope.CourseView_viewposts=false;
                 }
-                });
+                } );
             }
 
             $scope.GetCourseDetails=function (x,id) {
