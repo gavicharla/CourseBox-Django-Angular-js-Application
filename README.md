@@ -6,4 +6,4 @@ I have developed this application in just four days i.e., I have worked around 1
 Do visit the project at 
 
 
-coursebox.herokuapp.com
+http://coursebox.herokuapp.com/
