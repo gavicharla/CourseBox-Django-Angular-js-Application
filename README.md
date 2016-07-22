@@ -7,3 +7,12 @@ Do visit the project at
 
 
 http://coursebox.herokuapp.com/
+
+
+You can view more explanation at the following link
+
+https://knowledgesharesblog.wordpress.com/2016/07/22/coursebox-my-first-django-application/
+
+You can find my youtube walk through at the following link
+
+https://youtu.be/arRtj_2GJBk
